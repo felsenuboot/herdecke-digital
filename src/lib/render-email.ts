@@ -1,6 +1,7 @@
 import { config } from './config';
 import type { Subscription } from './store';
 import type { AgendaItem, MeetingAgenda } from '../sessionnet';
+import type { Pickup } from './sources/waste-ahe';
 
 export interface AlertMatch {
   meeting: MeetingAgenda;
@@ -13,12 +14,12 @@ const esc = (s: string): string =>
 
 const shell = (title: string, body: string, unsubUrl: string): string => `<!doctype html>
 <html lang="de"><body style="font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#1a1a1a;line-height:1.5;max-width:640px;margin:0 auto;padding:16px">
-<h1 style="font-size:20px;margin:0 0 4px">Ratswatch Herdecke</h1>
+<h1 style="font-size:20px;margin:0 0 4px">Herdecke kompakt</h1>
 <p style="color:#555;font-size:13px;margin:0 0 20px">${esc(title)}</p>
 ${body}
 <hr style="border:none;border-top:1px solid #eee;margin:24px 0">
-<p style="color:#888;font-size:12px">Du erhältst diese E-Mail, weil du dich bei Ratswatch Herdecke angemeldet hast.
-<a href="${unsubUrl}" style="color:#888">Abmelden</a> · <a href="${config.appUrl}" style="color:#888">Ratswatch</a></p>
+<p style="color:#888;font-size:12px">Du erhältst diese E-Mail, weil du dich bei Herdecke kompakt angemeldet hast.
+<a href="${unsubUrl}" style="color:#888">Abmelden</a> · <a href="${config.appUrl}" style="color:#888">Herdecke kompakt</a></p>
 </body></html>`;
 
 /** Double opt-in confirmation email. */
@@ -78,6 +79,66 @@ export function renderAlertEmail(sub: Subscription, matches: AlertMatch[]): { su
   }
 
   const body = `<p>Es gibt neue Tagesordnungspunkte zu deinen Stichwörtern:</p>${htmlParts.join('\n')}`;
-  const text = `Ratswatch Herdecke — neue Treffer zu deinen Stichwörtern:\n${textParts.join('\n')}\n\nAbmelden: ${unsubUrl}`;
+  const text = `Herdecke kompakt — neue Treffer zu deinen Stichwörtern:\n${textParts.join('\n')}\n\nAbmelden: ${unsubUrl}`;
   return { subject, html: shell('Neue Treffer zu deinen Stichwörtern', body, unsubUrl), text };
+}
+
+// ── Müll-Wecker (waste reminders) ───────────────────────────────────────────
+
+function fractionEmoji(type: string): string {
+  const t = type.toLowerCase();
+  if (t.includes('rest')) return '🗑️';
+  if (t.includes('bio')) return '🟫';
+  if (t.includes('papier')) return '📦';
+  if (t.includes('gelb') || t.includes('wertstoff') || t.includes('verpack')) return '🟡';
+  return '♻️';
+}
+
+function fmtDeLong(iso: string): string {
+  return new Date(`${iso}T00:00:00`).toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit' });
+}
+
+/** Double opt-in confirmation for the Müll-Wecker. */
+export function renderWasteConfirmEmail(sub: Subscription): { subject: string; html: string; text: string } {
+  const confirmUrl = `${config.appUrl}/api/confirm?token=${sub.confirmToken}`;
+  const unsubUrl = `${config.appUrl}/api/unsubscribe?token=${sub.unsubToken}`;
+  const addr = `${sub.street ?? ''} ${sub.hnr ?? ''}`.trim();
+  const subject = 'Bitte bestätige deinen Müll-Wecker';
+  const body = `
+<p>Fast geschafft! Bestätige deine Anmeldung, dann erinnern wir dich am Vorabend an die Abfuhrtermine für <strong>${esc(addr)}</strong>.</p>
+<p><a href="${confirmUrl}" style="display:inline-block;background:#1f6feb;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">Müll-Wecker bestätigen</a></p>
+<p style="color:#888;font-size:12px">Falls du das nicht warst, ignoriere diese E-Mail einfach.</p>`;
+  const text = `Herdecke kompakt — Müll-Wecker bestätigen
+
+Bestätige deine Anmeldung: ${confirmUrl}
+
+Adresse: ${addr}
+
+Falls du das nicht warst, ignoriere diese E-Mail.
+Abmelden: ${unsubUrl}`;
+  return { subject, html: shell('Müll-Wecker bestätigen', body, unsubUrl), text };
+}
+
+/** The evening-before reminder. */
+export function renderWasteReminderEmail(
+  sub: Subscription,
+  pickups: Pickup[],
+  dateISO: string,
+): { subject: string; html: string; text: string } {
+  const unsubUrl = `${config.appUrl}/api/unsubscribe?token=${sub.unsubToken}`;
+  const addr = `${sub.street ?? ''} ${sub.hnr ?? ''}`.trim();
+  const types = pickups.map((p) => p.type);
+  const subject = `Morgen: ${types.join(' + ')} 🗑️`;
+  const list = pickups.map((p) => `${fractionEmoji(p.type)} ${esc(p.type)}`).join('<br>');
+  const body = `
+<p><strong>${esc(fmtDeLong(dateISO))}</strong> wird in <strong>${esc(addr)}</strong> abgeholt:</p>
+<p style="font-size:17px;line-height:1.8">${list}</p>
+<p style="color:#888;font-size:12px">Bitte die Tonnen heute Abend bereitstellen.</p>`;
+  const text = `Herdecke kompakt — Müll-Wecker
+
+Morgen (${fmtDeLong(dateISO)}) wird in ${addr} abgeholt:
+${types.map((t) => `  • ${t}`).join('\n')}
+
+Abmelden: ${unsubUrl}`;
+  return { subject, html: shell('Erinnerung an die Müllabfuhr', body, unsubUrl), text };
 }

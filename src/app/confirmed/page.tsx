@@ -17,8 +17,8 @@ export default async function ConfirmedPage({ searchParams }: { searchParams: Pr
         <>
           <h1>Anmeldung bestätigt ✓</h1>
           <p>
-            Alles klar — du bekommst ab jetzt eine E-Mail, sobald deine Stichwörter auf einer Tagesordnung des
-            Herdecker Rats erscheinen. Du kannst dich jederzeit über den Link in jeder E-Mail wieder abmelden.
+            Alles klar — deine Benachrichtigungen sind jetzt aktiv. Du kannst dich jederzeit über den Link in jeder
+            E-Mail wieder abmelden.
           </p>
           <p>
             <Link href="/">Zur Startseite</Link>

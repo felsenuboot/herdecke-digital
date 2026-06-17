@@ -29,7 +29,7 @@ export async function runScan(opts: { months?: number; delayMs?: number } = {}):
   const months = opts.months ?? config.scanMonths;
   const delayMs = opts.delayMs ?? 300;
   const store = await getStore();
-  const subs = await store.listConfirmed();
+  const subs = (await store.listConfirmed()).filter((s) => s.kind === 'council');
 
   const result: ScanResult = {
     meetings: 0,

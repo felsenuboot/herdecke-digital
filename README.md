@@ -1,5 +1,7 @@
 # Herdecke kompakt
 
+[![CI](https://github.com/felsenuboot/herdecke-kompakt/actions/workflows/ci.yml/badge.svg)](https://github.com/felsenuboot/herdecke-kompakt/actions/workflows/ci.yml)
+
 The most useful civic data for **Stadt Herdecke** on one page — live weather &
 official DWD warnings, the next public-transport departures, the Ruhr water level,
 air quality, the waste calendar, and the city council — plus **keyword alerts** that
@@ -124,9 +126,12 @@ Example (real output, Rat 18.06.2026):
 8. **Abfahrten** ✅ — pick any of Herdecke's ~62 stops (EFA 9 km coordinate search,
    filtered to locality Herdecke), live board at `/abfahrten`, with a saved default
    stop reflected on the homepage card. Departures addressed by global id (`de:05954:NNNN`).
-9. **Next** — opt-in *email* waste reminders the evening before (reuse the alert
-   pipeline); subscribable **flood / severe-weather alerts** for Herdecke; council
-   per-committee filters & daily digest.
+9. **Müll-Wecker reminders** ✅ — opt-in *email* reminders the evening before a
+   collection (double opt-in on `/muell`; evening cron `/api/cron/waste`). Reuses
+   the same store + idempotency as the council alerts.
+10. **CI** ✅ — GitHub Actions runs typecheck + build on every push/PR.
+11. **Next** — subscribable **flood / severe-weather alerts** for Herdecke (the data
+    is already wired into the dashboard); council per-committee filters & daily digest.
 
 ## Deploy
 

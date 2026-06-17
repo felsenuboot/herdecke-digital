@@ -46,6 +46,9 @@ export function MuellForm() {
   const [hnr, setHnr] = useState('');
   const [state, setState] = useState<'idle' | 'loading' | 'done'>('idle');
   const [result, setResult] = useState<WasteResult | null>(null);
+  const [remEmail, setRemEmail] = useState('');
+  const [remState, setRemState] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle');
+  const [remMsg, setRemMsg] = useState('');
 
   // Remember the last address for convenience.
   useEffect(() => {
@@ -78,6 +81,31 @@ export function MuellForm() {
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     void lookup(strasse, hnr);
+  }
+
+  async function subscribeReminder(e: React.FormEvent) {
+    e.preventDefault();
+    setRemState('sending');
+    setRemMsg('');
+    try {
+      const res = await fetch('/api/waste/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: remEmail, strasse: result?.street ?? strasse, hnr }),
+      });
+      const data = (await res.json()) as { ok?: boolean; message?: string; error?: string };
+      if (res.ok && data.ok) {
+        setRemState('ok');
+        setRemMsg(data.message ?? 'Bitte bestätige den Link in deiner E-Mail.');
+        setRemEmail('');
+      } else {
+        setRemState('err');
+        setRemMsg(data.error ?? 'Anmeldung fehlgeschlagen.');
+      }
+    } catch {
+      setRemState('err');
+      setRemMsg('Netzwerkfehler. Bitte erneut versuchen.');
+    }
   }
 
   // Group pickups by date (a day can have several fractions).
@@ -167,6 +195,43 @@ export function MuellForm() {
             ))}
           </ul>
         </>
+      )}
+
+      {days.length > 0 && (
+        <form className="muell-reminder" onSubmit={subscribeReminder}>
+          <p className="muell-reminder-title">📧 Erinnerung am Vorabend</p>
+          <p className="hint" style={{ marginTop: 0 }}>
+            Wir schicken dir am Abend vorher eine E-Mail, wenn am nächsten Morgen abgeholt wird — für{' '}
+            <strong>
+              {result?.street} {hnr}
+            </strong>
+            .
+          </p>
+          <div className="muell-fields">
+            <div style={{ flex: 1 }}>
+              <label htmlFor="remEmail">E-Mail-Adresse</label>
+              <input
+                id="remEmail"
+                type="email"
+                required
+                placeholder="du@example.com"
+                value={remEmail}
+                onChange={(e) => setRemEmail(e.target.value)}
+              />
+            </div>
+          </div>
+          <button className="btn" type="submit" disabled={remState === 'sending'}>
+            {remState === 'sending' ? 'Wird gesendet…' : 'Erinnerung aktivieren'}
+          </button>
+          {remMsg && (
+            <p className={`status ${remState === 'ok' ? 'ok' : 'err'}`} style={{ marginTop: 10 }}>
+              {remMsg}
+            </p>
+          )}
+          <p className="hint">
+            Double-Opt-In, jederzeit mit einem Klick abbestellbar. Siehe <a href="/datenschutz">Datenschutz</a>.
+          </p>
+        </form>
       )}
     </div>
   );

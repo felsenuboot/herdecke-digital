@@ -17,10 +17,11 @@ export default function DatenschutzPage() {
 
       <h2>Welche Daten wir verarbeiten</h2>
       <p>
-        Für den Benachrichtigungsdienst speichern wir ausschließlich die von dir angegebene{' '}
-        <strong>E-Mail-Adresse</strong> und deine <strong>Stichwörter</strong> sowie technische Zeitstempel
-        (Anmeldung, Bestätigung). Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du im
-        Double-Opt-In-Verfahren erteilst.
+        Für die <strong>Stadtrat-Benachrichtigungen</strong> speichern wir deine <strong>E-Mail-Adresse</strong> und
+        deine <strong>Stichwörter</strong>. Für den <strong>Müll-Wecker</strong> speichern wir deine{' '}
+        <strong>E-Mail-Adresse</strong> sowie <strong>Straße und Hausnummer</strong> (zur Ermittlung deiner
+        Abfuhrtermine). Dazu kommen technische Zeitstempel (Anmeldung, Bestätigung). Rechtsgrundlage ist deine
+        Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du im Double-Opt-In-Verfahren erteilst.
       </p>
 
       <h2>E-Mail-Versand</h2>
