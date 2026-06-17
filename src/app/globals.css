@@ -62,21 +62,6 @@ a { color: var(--accent); }
   flex: 0 0 auto;
 }
 .site-header .brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.brand-mark {
-  width: 22px;
-  height: 16px;
-  border-radius: 3px;
-  overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.16);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 auto;
-}
-.brand-mark i { display: block; flex: 1; }
-.brand-mark i:nth-child(1),
-.brand-mark i:nth-child(3) { background: #da121a; }
-.brand-mark i:nth-child(2) { background: #ffffff; }
 .brand-dot { color: var(--accent); }
 
 /* ── Tab bar: editorial underline navigation ─────────────────────── */
@@ -465,11 +450,7 @@ a { color: var(--accent); }
 :root[data-theme="dark"] .aqi-3 { background: #cf6533; }
 :root[data-theme="dark"] .aqi-4 { background: #cf4040; }
 
-/* Brand emblem + flags: light shadow vanishes on dark → add a subtle ring */
-:root[data-theme="dark"] .brand-mark {
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
-}
+/* Flags: light shadow vanishes on dark → add a subtle ring */
 :root[data-theme="dark"] .flag {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
 }

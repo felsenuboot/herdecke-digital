@@ -38,11 +38,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <header className="site-header">
             <div className="container">
               <Link href="/" className="brand" aria-label={t('Herdecke — Startseite')}>
-                <span className="brand-mark" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
-                </span>
                 <span>
                   Herdecke<span className="brand-dot">.Digital</span>
                 </span>
