@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <header className="site-header">
             <div className="container">
               <Link href="/" className="brand">
-                Herdecke
+                Herdecke.Digital
               </Link>
               <nav>
                 <Link href="/">{t('Start')}</Link>
