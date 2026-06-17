@@ -167,6 +167,9 @@ a { color: var(--accent); }
 
 .muell-reminder { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); display: grid; gap: 10px; }
 .muell-reminder-title { font-weight: 700; margin: 0; }
+.muell-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn-secondary { background: #fff; color: var(--accent); border: 1px solid var(--line); }
+.btn-secondary:hover { background: #fcfcfb; }
 
 /* ── Schulen & Ferien ───────────────────────────────────────────────── */
 .holiday-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }

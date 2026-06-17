@@ -49,6 +49,8 @@ export function MuellForm() {
   const [remEmail, setRemEmail] = useState('');
   const [remState, setRemState] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle');
   const [remMsg, setRemMsg] = useState('');
+  const [geoState, setGeoState] = useState<'idle' | 'locating' | 'err'>('idle');
+  const [geoMsg, setGeoMsg] = useState('');
 
   // Remember the last address for convenience.
   useEffect(() => {
@@ -108,6 +110,42 @@ export function MuellForm() {
     }
   }
 
+  function useMyLocation() {
+    if (!('geolocation' in navigator)) {
+      setGeoState('err');
+      setGeoMsg('Standortbestimmung wird von deinem Browser nicht unterstützt.');
+      return;
+    }
+    setGeoState('locating');
+    setGeoMsg('');
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const { latitude, longitude } = pos.coords;
+          const res = await fetch(`/api/geocode?lat=${latitude}&lon=${longitude}`);
+          const data = (await res.json()) as { strasse?: string; hnr?: string; error?: string };
+          if (res.ok && data.strasse) {
+            setStrasse(data.strasse);
+            setHnr(data.hnr ?? '');
+            setGeoState('idle');
+            void lookup(data.strasse, data.hnr ?? '');
+          } else {
+            setGeoState('err');
+            setGeoMsg(data.error ?? 'Adresse konnte nicht bestimmt werden.');
+          }
+        } catch {
+          setGeoState('err');
+          setGeoMsg('Adresse konnte nicht bestimmt werden.');
+        }
+      },
+      () => {
+        setGeoState('err');
+        setGeoMsg('Standortzugriff wurde abgelehnt.');
+      },
+      { enableHighAccuracy: true, timeout: 10_000 },
+    );
+  }
+
   // Group pickups by date (a day can have several fractions).
   const byDate = new Map<string, string[]>();
   for (const p of result?.pickups ?? []) {
@@ -137,9 +175,24 @@ export function MuellForm() {
             <input id="hnr" type="text" placeholder="12" value={hnr} onChange={(e) => setHnr(e.target.value)} />
           </div>
         </div>
-        <button className="btn" type="submit" disabled={state === 'loading'}>
-          {state === 'loading' ? 'Suche…' : 'Abfuhrtermine anzeigen'}
-        </button>
+        <div className="muell-actions">
+          <button className="btn" type="submit" disabled={state === 'loading'}>
+            {state === 'loading' ? 'Suche…' : 'Abfuhrtermine anzeigen'}
+          </button>
+          <button
+            className="btn btn-secondary"
+            type="button"
+            onClick={useMyLocation}
+            disabled={geoState === 'locating'}
+          >
+            {geoState === 'locating' ? 'Standort…' : '📍 Meinen Standort verwenden'}
+          </button>
+        </div>
+        {geoMsg && (
+          <p className="status err" style={{ marginTop: 10 }}>
+            {geoMsg}
+          </p>
+        )}
       </form>
 
       {result?.error && (

@@ -36,6 +36,19 @@ export default function DatenschutzPage() {
         Digital.Herdecke ist ein unabhängiges Bürger-Projekt und keine offizielle Seite der Stadt.
       </p>
 
+      <h2>Standort & lokale Speicherung</h2>
+      <p>
+        Beim Müll-Wecker kannst du optional „Meinen Standort verwenden". Dein Gerät übermittelt dann einmalig deine
+        Koordinaten, die ausschließlich zur Ermittlung deiner Straße per Reverse-Geocoding über
+        OpenStreetMap/Nominatim verarbeitet und <strong>nicht gespeichert</strong> werden. Die Standortabfrage
+        erfolgt nur auf deine ausdrückliche Aktion hin.
+      </p>
+      <p>
+        Deine zuletzt genutzte Adresse und Haltestelle werden ausschließlich <strong>lokal in deinem Browser</strong>{' '}
+        (localStorage) gespeichert, damit du sie nicht erneut eingeben musst. Das ist rein funktionale Speicherung —
+        wir setzen <strong>keine Tracking-Cookies</strong> und übertragen diese Daten nicht an uns.
+      </p>
+
       <h2>Speicherdauer & Widerruf</h2>
       <p>
         Du kannst deine Einwilligung jederzeit widerrufen, indem du den Abmeldelink in jeder E-Mail anklickst.
