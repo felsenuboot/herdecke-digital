@@ -40,6 +40,9 @@ export async function runScan(opts: { months?: number; delayMs?: number } = {}):
     errors: [],
   };
 
+  // No subscribers → don't scrape the council portal at all.
+  if (subs.length === 0) return result;
+
   // Pre-compute folded keywords once per subscriber.
   const prepared = subs.map((sub) => ({ sub, keywords: prepareKeywords(sub.keywords) }));
 

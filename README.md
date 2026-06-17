@@ -135,23 +135,45 @@ Example (real output, Rat 18.06.2026):
 
 ## Deploy
 
-Local dev needs nothing — `npm run dev` uses a JSON file and logs emails to the
-console. To host it for the community on Vercel:
+### Read-only dashboard (default — zero config)
 
-1. **Database** — add a Neon Postgres integration from the Vercel Marketplace; it
-   injects `DATABASE_URL`. Tables are created automatically on first run.
+By default `NEXT_PUBLIC_SUBSCRIPTIONS_ENABLED` is off, so the site stores **no user
+data**: weather, departures, river level, air, waste lookup, schools and the council
+viewer are all read-only public data. That means a one-command deploy with **no env
+vars and no database**:
+
+```bash
+npm i -g vercel
+vercel --prod
+```
+
+Add your own domain in the Vercel dashboard (Settings → Domains) and set
+`APP_URL=https://your-domain` so internal links are correct.
+
+### Enable the e-mail features later
+
+Council keyword alerts + the Müll-Wecker reminders are built but disabled. Turn them
+on once you have an Impressum, a Datenschutzerklärung, a verified sending domain and
+the data-processing agreements (Resend/Neon):
+
+1. **Database** — add a Neon Postgres integration (EU region) from the Vercel
+   Marketplace; it injects `DATABASE_URL`. Tables are created on first run.
 2. **Email** — create a [Resend](https://resend.com) API key, verify a sending
-   domain, then set `RESEND_API_KEY` and `EMAIL_FROM`
-   (e.g. `Ratswatch Herdecke <alerts@deine-domain.de>`).
-3. **Secrets** — set `APP_URL` to your real URL and `CRON_SECRET` to a random
-   string (Vercel passes it to the cron as a Bearer token).
-4. **Fill in** `Impressum` and `Datenschutz` — legally required before going live.
-5. `vercel deploy --prod`. The daily cron (06:00 UTC) is in `vercel.json`; trigger
-   a manual run with
+   domain, set `RESEND_API_KEY` and `EMAIL_FROM` (e.g. `Herdecke kompakt <alerts@your-domain>`).
+3. **Secrets** — `APP_URL`, a random `CRON_SECRET`, and `NEXT_PUBLIC_SUBSCRIPTIONS_ENABLED=true`.
+4. **Fill in** `Impressum` and `Datenschutz` (placeholders in `src/app/`).
+5. **Restore the cron jobs** — create `vercel.json`:
+   ```json
+   {
+     "$schema": "https://openapi.vercel.sh/vercel.json",
+     "crons": [
+       { "path": "/api/cron/scan", "schedule": "0 6 * * *" },
+       { "path": "/api/cron/waste", "schedule": "0 16 * * *" }
+     ]
+   }
+   ```
+6. `vercel --prod`. Trigger a manual run with
    `curl -H "Authorization: Bearer $CRON_SECRET" https://<app>/api/cron/scan`.
-
-> Confirm/unsubscribe are GET links (email-client friendly). If corporate mail
-> scanners start prefetching them, switch to a one-click POST confirmation page.
 
 ## Operating notes
 

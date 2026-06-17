@@ -63,7 +63,9 @@ async function fetchHtml(url: string): Promise<string> {
     const res = await fetch(url, {
       headers: { 'User-Agent': USER_AGENT, Accept: 'text/html,application/xhtml+xml' },
       signal: controller.signal,
-    });
+      // Cached by Next (shared across requests); ignored by plain Node (CLI/cron stays fresh).
+      next: { revalidate: 1800 },
+    } as RequestInit);
     if (!res.ok) throw new Error(`GET ${url} → HTTP ${res.status}`);
     return await res.text();
   } finally {
