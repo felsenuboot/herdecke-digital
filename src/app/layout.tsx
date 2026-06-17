@@ -3,7 +3,7 @@ import Link from 'next/link';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Herdecke kompakt — Wetter, Verkehr, Ruhr-Pegel & Stadtrat',
+  title: 'Digital.Herdecke — Wetter, Verkehr, Ruhr-Pegel & Stadtrat',
   description:
     'Das Wichtigste aus Herdecke auf einen Blick: aktuelles Wetter und Unwetterwarnungen, nächste Abfahrten, Ruhr-Pegel, Müllabfuhr — plus Stichwort-Alarme für den Stadtrat.',
 };
@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="site-header">
           <div className="container">
             <Link href="/" className="brand">
-              Herdecke kompakt
+              Herdecke
             </Link>
             <nav>
               <Link href="/">Start</Link>

@@ -1,5 +1,5 @@
 /**
- * Ratswatch CLI — scan upcoming Herdecke council agendas for keywords.
+ * Digital.Herdecke CLI — scan upcoming Herdecke council agendas for keywords.
  *
  *   npm run scan -- --keywords "Radweg,Kita,Klima,Straße" --months 4
  *   npm run scan -- --list                 # just list upcoming meetings
@@ -90,7 +90,7 @@ async function main() {
     return;
   }
 
-  console.log(`\n━━ Ratswatch Herdecke ━━`);
+  console.log(`\n━━ Digital.Herdecke ━━`);
   console.log(`Meetings scanned: ${scanned}/${meetings.length}   agenda items read: ${itemsSeen}   keywords: ${keywords.map((k) => k.raw).join(', ')}\n`);
 
   if (hits.length === 0) {

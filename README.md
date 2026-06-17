@@ -1,4 +1,4 @@
-# Herdecke kompakt
+# Digital.Herdecke
 
 [![CI](https://github.com/felsenuboot/herdecke-kompakt/actions/workflows/ci.yml/badge.svg)](https://github.com/felsenuboot/herdecke-kompakt/actions/workflows/ci.yml)
 
@@ -33,7 +33,7 @@ Source clients live in `src/lib/sources/*`; cards in `src/app/components/cards.t
 
 Herdecke's council data lives in a Somacos **SessionNet** portal that nobody checks
 and that exposes **no OParl API**. Decisions affecting your street are public but
-practically invisible. Ratswatch turns that portal into a subscribable feed.
+practically invisible. Digital.Herdecke turns that portal into a subscribable feed.
 
 ## How it works
 
@@ -115,7 +115,7 @@ Example (real output, Rat 18.06.2026):
 4. **Scheduled scan** ✅ — `vercel.json` cron hits `/api/cron/scan` daily; it
    matches agenda items to subscriptions and emails via **Resend**. Idempotent:
    never alerts twice for the same (subscriber, item).
-5. **Civic dashboard ("Herdecke kompakt")** ✅ — homepage overview with live
+5. **Civic dashboard ("Digital.Herdecke")** ✅ — homepage overview with live
    weather + DWD warnings, VRR departures, Ruhr pegel, air quality, waste links,
    and a next-meeting agenda preview. See [Live data](#live-data-on-the-homepage).
 6. **Müll-Wecker** ✅ — per-street waste schedule at `/muell` from live AHE data
@@ -159,7 +159,7 @@ the data-processing agreements (Resend/Neon):
 1. **Database** — add a Neon Postgres integration (EU region) from the Vercel
    Marketplace; it injects `DATABASE_URL`. Tables are created on first run.
 2. **Email** — create a [Resend](https://resend.com) API key, verify a sending
-   domain, set `RESEND_API_KEY` and `EMAIL_FROM` (e.g. `Herdecke kompakt <alerts@your-domain>`).
+   domain, set `RESEND_API_KEY` and `EMAIL_FROM` (e.g. `Digital.Herdecke <alerts@your-domain>`).
 3. **Secrets** — `APP_URL`, a random `CRON_SECRET`, and `NEXT_PUBLIC_SUBSCRIPTIONS_ENABLED=true`.
 4. **Fill in** `Impressum` and `Datenschutz` (placeholders in `src/app/`).
 5. **Restore the cron jobs** — create `vercel.json`:

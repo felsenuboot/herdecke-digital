@@ -2,7 +2,7 @@ import { getHerdeckeStops } from '@/lib/sources/transit';
 import { AbfahrtenBoard } from '../components/AbfahrtenBoard';
 
 export const revalidate = 86400;
-export const metadata = { title: 'Abfahrten — Herdecke kompakt' };
+export const metadata = { title: 'Abfahrten — Digital.Herdecke' };
 
 export default async function AbfahrtenPage() {
   const stops = await getHerdeckeStops();

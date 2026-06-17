@@ -1,7 +1,7 @@
 import { MuellForm } from '../components/MuellForm';
 import { wasteInfo } from '@/lib/sources/waste';
 
-export const metadata = { title: 'Müll-Wecker — Herdecke kompakt' };
+export const metadata = { title: 'Müll-Wecker — Digital.Herdecke' };
 
 export default function MuellPage() {
   return (

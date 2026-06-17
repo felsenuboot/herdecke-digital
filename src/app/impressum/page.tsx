@@ -1,4 +1,4 @@
-export const metadata = { title: 'Impressum — Ratswatch Herdecke' };
+export const metadata = { title: 'Impressum — Digital.Herdecke' };
 
 export default function ImpressumPage() {
   return (
@@ -24,7 +24,7 @@ export default function ImpressumPage() {
 
       <h2>Haftungsausschluss</h2>
       <p>
-        Ratswatch Herdecke ist ein unabhängiges, ehrenamtliches Bürger-Projekt und steht in keiner Verbindung zur
+        Digital.Herdecke ist ein unabhängiges, ehrenamtliches Bürger-Projekt und steht in keiner Verbindung zur
         Stadt Herdecke. Die Benachrichtigungen erfolgen automatisiert und nach bestem Wissen, aber ohne Gewähr auf
         Vollständigkeit oder Richtigkeit. Maßgeblich sind allein die offiziellen Veröffentlichungen im
         Ratsinformationssystem der Stadt Herdecke.

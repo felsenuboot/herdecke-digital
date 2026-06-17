@@ -7,7 +7,7 @@ export const config = {
   /** Resend API key. If empty, emails are logged to the console (dev mode). */
   resendApiKey: process.env.RESEND_API_KEY ?? '',
   /** From address for outgoing mail. Resend's sandbox sender works for testing. */
-  emailFrom: process.env.EMAIL_FROM ?? 'Herdecke kompakt <onboarding@resend.dev>',
+  emailFrom: process.env.EMAIL_FROM ?? 'Digital.Herdecke <onboarding@resend.dev>',
   /** Shared secret the Vercel cron must present (Authorization: Bearer …). */
   cronSecret: process.env.CRON_SECRET ?? '',
   /** How many months ahead to scan for meetings. */

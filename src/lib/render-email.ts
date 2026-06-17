@@ -14,12 +14,12 @@ const esc = (s: string): string =>
 
 const shell = (title: string, body: string, unsubUrl: string): string => `<!doctype html>
 <html lang="de"><body style="font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#1a1a1a;line-height:1.5;max-width:640px;margin:0 auto;padding:16px">
-<h1 style="font-size:20px;margin:0 0 4px">Herdecke kompakt</h1>
+<h1 style="font-size:20px;margin:0 0 4px">Digital.Herdecke</h1>
 <p style="color:#555;font-size:13px;margin:0 0 20px">${esc(title)}</p>
 ${body}
 <hr style="border:none;border-top:1px solid #eee;margin:24px 0">
-<p style="color:#888;font-size:12px">Du erhältst diese E-Mail, weil du dich bei Herdecke kompakt angemeldet hast.
-<a href="${unsubUrl}" style="color:#888">Abmelden</a> · <a href="${config.appUrl}" style="color:#888">Herdecke kompakt</a></p>
+<p style="color:#888;font-size:12px">Du erhältst diese E-Mail, weil du dich bei Digital.Herdecke angemeldet hast.
+<a href="${unsubUrl}" style="color:#888">Abmelden</a> · <a href="${config.appUrl}" style="color:#888">Digital.Herdecke</a></p>
 </body></html>`;
 
 /** Double opt-in confirmation email. */
@@ -27,13 +27,13 @@ export function renderConfirmEmail(sub: Subscription): { subject: string; html: 
   const confirmUrl = `${config.appUrl}/api/confirm?token=${sub.confirmToken}`;
   const unsubUrl = `${config.appUrl}/api/unsubscribe?token=${sub.unsubToken}`;
   const kw = sub.keywords.join(', ');
-  const subject = 'Bitte bestätige deine Ratswatch-Anmeldung';
+  const subject = 'Bitte bestätige deine Anmeldung bei Digital.Herdecke';
   const body = `
 <p>Fast geschafft! Bestätige deine Anmeldung, dann benachrichtigen wir dich, sobald eines deiner Stichwörter auf einer Tagesordnung des Herdecker Rats erscheint.</p>
 <p><strong>Deine Stichwörter:</strong> ${esc(kw)}</p>
 <p><a href="${confirmUrl}" style="display:inline-block;background:#1f6feb;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">Anmeldung bestätigen</a></p>
 <p style="color:#888;font-size:12px">Falls du das nicht warst, ignoriere diese E-Mail einfach.</p>`;
-  const text = `Ratswatch Herdecke — Anmeldung bestätigen
+  const text = `Digital.Herdecke — Anmeldung bestätigen
 
 Bestätige deine Anmeldung: ${confirmUrl}
 
@@ -79,7 +79,7 @@ export function renderAlertEmail(sub: Subscription, matches: AlertMatch[]): { su
   }
 
   const body = `<p>Es gibt neue Tagesordnungspunkte zu deinen Stichwörtern:</p>${htmlParts.join('\n')}`;
-  const text = `Herdecke kompakt — neue Treffer zu deinen Stichwörtern:\n${textParts.join('\n')}\n\nAbmelden: ${unsubUrl}`;
+  const text = `Digital.Herdecke — neue Treffer zu deinen Stichwörtern:\n${textParts.join('\n')}\n\nAbmelden: ${unsubUrl}`;
   return { subject, html: shell('Neue Treffer zu deinen Stichwörtern', body, unsubUrl), text };
 }
 
@@ -108,7 +108,7 @@ export function renderWasteConfirmEmail(sub: Subscription): { subject: string; h
 <p>Fast geschafft! Bestätige deine Anmeldung, dann erinnern wir dich am Vorabend an die Abfuhrtermine für <strong>${esc(addr)}</strong>.</p>
 <p><a href="${confirmUrl}" style="display:inline-block;background:#1f6feb;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">Müll-Wecker bestätigen</a></p>
 <p style="color:#888;font-size:12px">Falls du das nicht warst, ignoriere diese E-Mail einfach.</p>`;
-  const text = `Herdecke kompakt — Müll-Wecker bestätigen
+  const text = `Digital.Herdecke — Müll-Wecker bestätigen
 
 Bestätige deine Anmeldung: ${confirmUrl}
 
@@ -134,7 +134,7 @@ export function renderWasteReminderEmail(
 <p><strong>${esc(fmtDeLong(dateISO))}</strong> wird in <strong>${esc(addr)}</strong> abgeholt:</p>
 <p style="font-size:17px;line-height:1.8">${list}</p>
 <p style="color:#888;font-size:12px">Bitte die Tonnen heute Abend bereitstellen.</p>`;
-  const text = `Herdecke kompakt — Müll-Wecker
+  const text = `Digital.Herdecke — Müll-Wecker
 
 Morgen (${fmtDeLong(dateISO)}) wird in ${addr} abgeholt:
 ${types.map((t) => `  • ${t}`).join('\n')}

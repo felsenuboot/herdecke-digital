@@ -1,4 +1,4 @@
-/** Live data cards for the "Herdecke kompakt" overview. All server components. */
+/** Live data cards for the "Digital.Herdecke" overview. All server components. */
 import Link from 'next/link';
 import { getWeather, getWarnings } from '@/lib/sources/weather';
 import { getRuhrLevel } from '@/lib/sources/pegel';

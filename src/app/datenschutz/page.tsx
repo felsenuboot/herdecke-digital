@@ -1,4 +1,4 @@
-export const metadata = { title: 'Datenschutz — Ratswatch Herdecke' };
+export const metadata = { title: 'Datenschutz — Digital.Herdecke' };
 
 export default function DatenschutzPage() {
   return (
@@ -33,7 +33,7 @@ export default function DatenschutzPage() {
       <h2>Datenquelle</h2>
       <p>
         Die angezeigten Tagesordnungen stammen aus dem öffentlichen Ratsinformationssystem der Stadt Herdecke.
-        Ratswatch ist ein unabhängiges Bürger-Projekt und keine offizielle Seite der Stadt.
+        Digital.Herdecke ist ein unabhängiges Bürger-Projekt und keine offizielle Seite der Stadt.
       </p>
 
       <h2>Speicherdauer & Widerruf</h2>

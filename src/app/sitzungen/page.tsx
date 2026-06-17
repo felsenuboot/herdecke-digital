@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { listUpcomingMeetings, type Meeting } from '@/sessionnet';
 
 export const revalidate = 1800;
-export const metadata = { title: 'Sitzungen — Herdecke kompakt' };
+export const metadata = { title: 'Sitzungen — Digital.Herdecke' };
 
 function formatDate(iso: string): string {
   const [y, m, d] = iso.split('-');

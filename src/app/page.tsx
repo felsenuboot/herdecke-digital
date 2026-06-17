@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <>
       <section className="hero">
-        <h1>Herdecke kompakt</h1>
+        <h1>Herdecke</h1>
         <p className="lead">
           Wetter, Verkehr, Ruhr-Pegel, Müllabfuhr und der Stadtrat — das Wichtigste aus Herdecke auf einen Blick.
         </p>

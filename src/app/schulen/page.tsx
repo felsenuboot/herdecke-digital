@@ -1,7 +1,7 @@
 import { getHerdeckeSchools, getSchoolHolidays, type School } from '@/lib/sources/schools';
 
 export const revalidate = 86400;
-export const metadata = { title: 'Schulen & Ferien — Herdecke kompakt' };
+export const metadata = { title: 'Schulen & Ferien — Digital.Herdecke' };
 
 function dmy(iso: string): string {
   const [y, m, d] = iso.split('-');
