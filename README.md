@@ -71,6 +71,25 @@ public/non-public flag, optional Vorlage, and attached documents.
   `Bahnhofstrasse` matches `Bahnhofstraße`.
 - **`src/scan.ts`** — CLI to verify extraction/matching against the live site.
 
+## Design system
+
+The UI is built on **KERN**, the German government's open design system
+([pattern library](https://gitlab.opencode.de/kern-ux/pattern-library), EUPL-1.2),
+via the React kit [`@publicplan/kern-react-kit`](https://www.npmjs.com/package/@publicplan/kern-react-kit)
+(which wraps `@kern-ux/native`). Buttons, badges, inputs and the select are the kit's
+own components; colours, typography (Fira Sans) and light/dark theming come from KERN
+design **tokens** (`--kern-color-*`) — so the app tracks KERN upstream instead of
+re-implementing it.
+
+- KERN components cross a single client boundary in `src/app/components/kern.tsx`;
+  Server Components render them as islands with serializable props.
+- `src/app/globals.css` bridges the app's own bespoke layout (cards, lists, flags)
+  onto KERN tokens; **dark mode flips automatically** via the `data-kern-theme`
+  attribute on `<html>` — there is no hand-maintained dark palette.
+- The kit is a local `file:` dependency installed with `install-links=true` (see
+  `.npmrc`) so `@kern-ux/native` resolves under Turbopack; re-run `npm install`
+  after updating the kit. A credit link sits in the site footer.
+
 ## Usage
 
 ```bash
