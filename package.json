@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@publicplan/kern-react-kit": "file:../kern-react-kit",
+    "@publicplan/kern-react-kit": "1.0.1",
     "cheerio": "^1.0.0",
     "next": "^16.0.0",
     "postgres": "^3.4.5",
