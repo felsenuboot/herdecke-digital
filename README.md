@@ -155,6 +155,13 @@ Example (real output, Rat 18.06.2026):
     **full-text searchable** (the SessionNet portal offers neither search nor an
     OParl API); index scraped agenda items so residents can look up a street, topic,
     or past decision across previous sessions.
+13. **Upgrade the KERN kit** — bump `@publicplan/kern-react-kit` from the pinned
+    `1.0.1` to the latest **1.3.5** (re-verify component props + dark-mode tokens
+    first). Pinned for now so the Vercel build is reproducible from npm.
+14. **Adopt KERN's official "Method 1" npm integration** — install `@kern-ux/native`
+    directly and import its CSS (`@import "@kern-ux/native/dist/kern.min.css"` +
+    `".../fonts/fira-sans.css"`, per kern-ux.de), decoupling the design tokens/CSS
+    from the React kit.
 
 ## Deploy
 
