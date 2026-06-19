@@ -58,10 +58,15 @@ export async function getHerdeckeStops(): Promise<Stop[]> {
     for (const s of j.locations ?? []) {
       if (!s.id || s.parent?.name !== 'Herdecke') continue;
       if (seen.has(s.id)) continue;
+      const name = (s.disassembledName || s.name || '').trim();
+      // The upstream occasionally returns unnamed/junk stops whose label is just
+      // "???" (or punctuation). Skip anything without a real letter so it can't
+      // pollute the list — or, sorted first, silently become the default stop.
+      if (!/\p{L}/u.test(name)) continue;
       seen.add(s.id);
       stops.push({
         id: s.id,
-        name: s.disassembledName || s.name || s.id,
+        name,
         distance: s.properties?.distance != null ? Number(s.properties.distance) : undefined,
       });
     }

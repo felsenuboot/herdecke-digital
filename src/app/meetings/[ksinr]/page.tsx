@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { fetchMeetingAgenda, type MeetingAgenda } from '@/sessionnet';
+import { Icon } from '../../components/kern';
 
 export const revalidate = 1800;
 
@@ -22,8 +23,11 @@ export default async function MeetingPage({ params }: { params: Promise<{ ksinr:
   return (
     <>
       <section className="hero" style={{ paddingBottom: 0 }}>
-        <p className="hint" style={{ marginBottom: 8 }}>
-          <Link href="/">← Alle Sitzungen</Link>
+        <p style={{ marginBottom: 8 }}>
+          <Link href="/sitzungen" className="kern-link kern-link--small">
+            <Icon name="arrow-back" aria-hidden={true} />
+            Alle Sitzungen
+          </Link>
         </p>
         <h1 style={{ fontSize: 24 }}>{agenda ? agenda.title || agenda.committee : 'Sitzung'}</h1>
       </section>
