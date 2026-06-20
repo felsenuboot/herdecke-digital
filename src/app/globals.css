@@ -80,9 +80,12 @@ a { color: var(--accent); }
 .brand-dot { color: var(--accent); }
 
 /* Tab bar: KERN buttons (the <Link>s carry kern-btn classes) */
+/* The nav is a single non-wrapping unit (so its natural width can be measured):
+   it either fits inline, or moves to its own full-width row (.is-tworow). On
+   mobile it becomes a vertical list inside the hamburger dropdown. */
 .site-nav {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 4px;
 }
