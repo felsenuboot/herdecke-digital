@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
 import '@publicplan/kern-react-kit/index.css';
 import './globals.css';
@@ -32,6 +32,11 @@ export const metadata: Metadata = {
   title: 'Digital.Herdecke — Wetter, Verkehr, Ruhr-Pegel & Stadtrat',
   description:
     'Das Wichtigste aus Herdecke auf einen Blick: aktuelles Wetter und Unwetterwarnungen, nächste Abfahrten, Ruhr-Pegel, Müllabfuhr — plus Stichwort-Alarme für den Stadtrat.',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
