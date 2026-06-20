@@ -12,9 +12,13 @@
  *
  * Herdecke is entirely PLZ 58313.
  */
+import { city, sourceUserAgent } from '../../config/city';
+
 const BASE = 'https://ahe.atino.net';
-const PLZ = '58313';
-const UA = 'Herdecke-kompakt/0.1 (open civic-tech; +https://github.com/felsenuboot/herdecke-digital)';
+// The AHE adapter resolves dates for a single PLZ (Herdecke is entirely 58313);
+// a city spanning multiple postal codes would need this threaded per address.
+const PLZ = city.postalCodes[0];
+const UA = sourceUserAgent;
 
 export interface Pickup {
   /** Waste type, e.g. "Restabfall", "Bioabfall", "Papier", "Gelber Sack". */

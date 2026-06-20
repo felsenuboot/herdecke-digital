@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useT } from './i18n';
 import { Icon } from './kern';
+import { city } from '@/config/city';
 
 interface Departure {
   line: string;
@@ -17,7 +18,7 @@ interface Board {
   departures: Departure[];
 }
 
-const DEFAULT = { id: 'de:05954:2269', name: 'Herdecke Bf' };
+const DEFAULT = city.sources.transit.defaultStop;
 const STORAGE_KEY = 'abfahrten-stop';
 
 function hm(iso: string): string {

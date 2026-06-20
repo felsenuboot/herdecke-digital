@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+import { city } from '@/config/city';
 
 // Generates the browser-tab favicon as a PNG (broadly supported, unlike an
 // SVG favicon which some browsers — e.g. Safari — refuse to show in the tab):
@@ -16,14 +17,14 @@ export default function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#DA121A',
+          background: city.flag.stripes[0],
           color: '#ffffff',
           fontSize: 23,
           fontWeight: 700,
           borderRadius: 7,
         }}
       >
-        H
+        {city.faviconLetter}
       </div>
     ),
     size,

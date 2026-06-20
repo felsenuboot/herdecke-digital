@@ -2,16 +2,17 @@
 
 import { useState } from 'react';
 import { useT } from './i18n';
+import { city, wordmarkText } from '@/config/city';
 
 export function ShareButton() {
   const { t } = useT();
   const [copied, setCopied] = useState(false);
 
   async function share() {
-    const url = typeof window !== 'undefined' ? window.location.origin : 'https://digital.herdecke';
+    const url = typeof window !== 'undefined' ? window.location.origin : `https://${city.domain}`;
     const data = {
-      title: 'Digital.Herdecke',
-      text: 'Digital.Herdecke — das Wichtigste aus Herdecke auf einen Blick',
+      title: wordmarkText,
+      text: `${wordmarkText} — das Wichtigste aus ${city.name} auf einen Blick`,
       url,
     };
     try {

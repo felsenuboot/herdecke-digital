@@ -124,14 +124,16 @@ a { color: var(--accent); }
 .locale-switch { position: relative; flex: 0 0 auto; }
 .locale-switch__btn { display: inline-flex; align-items: center; gap: 6px; }
 .locale-switch__btn .kern-label { font-weight: 600; letter-spacing: 0.02em; }
-.locale-switch__globe { flex: 0 0 auto; color: currentColor; }
+/* Use the themed foreground (not currentColor) so the globe + chevron stay
+   visible in dark mode — currentColor here doesn't flip with the theme. */
+.locale-switch__globe { flex: 0 0 auto; color: var(--fg); }
 .locale-switch__chev {
   width: 0;
   height: 0;
   flex: 0 0 auto;
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-top: 5px solid currentColor;
+  border-top: 5px solid var(--fg);
   opacity: 0.65;
 }
 .locale-switch__menu {
