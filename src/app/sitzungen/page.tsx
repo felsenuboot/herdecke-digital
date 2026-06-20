@@ -52,7 +52,7 @@ export default async function SitzungenPage() {
         )}
         <p className="hint" style={{ marginTop: 12 }}>
           {t('Quelle:')}{' '}
-          <a href={council.portalUrl} target="_blank" rel="noreferrer">
+          <a href={`${council.portalUrl}/`} target="_blank" rel="noreferrer">
             Ratsinformationssystem der Stadt {city.name}
           </a>
           .

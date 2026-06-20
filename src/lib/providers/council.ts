@@ -21,7 +21,6 @@ export interface CouncilProvider {
   listAnnouncedMeetings(from?: string): Promise<Meeting[]>;
   listUpcomingMeetings(opts?: { months?: number; from?: string }): Promise<Meeting[]>;
   fetchMeetingAgenda(meeting: Meeting | number): Promise<MeetingAgenda>;
-  fetchRss(): Promise<RssItem[]>;
 }
 
 /** Adapter: Somacos SessionNet ("Bürgerinfo"), implemented in src/sessionnet.ts. */
@@ -31,7 +30,6 @@ const sessionNetProvider: CouncilProvider = {
   listAnnouncedMeetings: sessionnet.listAnnouncedMeetings,
   listUpcomingMeetings: sessionnet.listUpcomingMeetings,
   fetchMeetingAgenda: sessionnet.fetchMeetingAgenda,
-  fetchRss: sessionnet.fetchRss,
 };
 
 /** The council provider for the active city, selected by config. */
