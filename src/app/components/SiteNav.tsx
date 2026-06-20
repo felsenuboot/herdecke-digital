@@ -28,6 +28,7 @@ export function SiteNav() {
   const [open, setOpen] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   // Close the mobile menu whenever the route changes.
   useEffect(() => {
@@ -58,6 +59,37 @@ export function SiteNav() {
     };
   }, [open]);
 
+  // Desktop: keep the nav inline next to the brand + utilities while it fits;
+  // when it no longer does (e.g. a long language like Ukrainian) drop it onto
+  // its own full-width row below. Measured so it's language-agnostic, not a
+  // guessed breakpoint. Mobile (<=768px) is handled by the hamburger in CSS.
+  useEffect(() => {
+    const nav = navRef.current;
+    const container = nav?.closest<HTMLElement>('.container') ?? null;
+    const header = nav?.closest<HTMLElement>('.site-header') ?? null;
+    if (!nav || !container || !header) return;
+
+    let naturalNav = 0;
+    function measure() {
+      if (!nav || !container || !header) return;
+      if (window.innerWidth <= 768) {
+        header.classList.remove('is-tworow');
+        return;
+      }
+      // Natural nav width is only meaningful while it's laid out inline.
+      if (!header.classList.contains('is-tworow')) naturalNav = nav.scrollWidth;
+      const brand = container.querySelector<HTMLElement>('.brand');
+      const utils = container.querySelector<HTMLElement>('.nav-utils');
+      const needed = (brand?.offsetWidth ?? 0) + naturalNav + (utils?.offsetWidth ?? 0) + 48;
+      header.classList.toggle('is-tworow', needed > container.clientWidth);
+    }
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(container);
+    return () => ro.disconnect();
+  }, [pathname]);
+
   return (
     <>
       {/* Mobile-only toggle; on wider screens the menu flows inline and this is hidden. */}
@@ -78,7 +110,7 @@ export function SiteNav() {
       </button>
 
       <div id="site-menu" ref={menuRef} className={`site-menu${open ? ' is-open' : ''}`}>
-        <nav className="site-nav" aria-label={t('Hauptnavigation')}>
+        <nav ref={navRef} className="site-nav" aria-label={t('Hauptnavigation')}>
           {ITEMS.map(({ href, label }) => {
             const active = isActive(pathname, href);
             return (

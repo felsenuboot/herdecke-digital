@@ -441,13 +441,23 @@ html[data-kern-theme="dark"] .theme-switch__knob { transform: translateX(20px); 
 .prose code { background: var(--chip); padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
 .note { background: var(--kern-color-feedback-info-background); border: 1px solid var(--kern-color-feedback-info); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
 
-/* Desktop header: brand + utilities share the top row, the navigation becomes
-   its own full-width bar below — so it never collides with the utilities and
-   any language (Ukrainian, …) lays out on a single line. */
+/* Desktop header. Single row by default — brand · nav (pushed right) ·
+   utilities. When SiteNav measures that the nav no longer fits beside the
+   utilities (e.g. a long language like Ukrainian), it sets .is-tworow and the
+   nav drops onto its own full-width row below. Mobile uses the hamburger. */
 @media (min-width: 769px) {
   .site-header .brand { order: 1; }
-  .nav-utils { order: 2; margin-left: auto; flex: 0 0 auto; }
-  .site-nav { order: 3; flex: 1 1 100%; justify-content: flex-start; padding-top: 2px; }
+  .site-nav { order: 2; margin-left: auto; flex: 0 0 auto; }
+  .nav-utils { order: 3; flex: 0 0 auto; }
+
+  .site-header.is-tworow .nav-utils { order: 2; margin-left: auto; }
+  .site-header.is-tworow .site-nav {
+    order: 3;
+    margin-left: 0;
+    flex: 1 1 100%;
+    justify-content: flex-start;
+    padding-top: 2px;
+  }
 }
 
 /* ── Responsive — KERN breakpoints: 768px tablet, 576px mobile ─────────── */
