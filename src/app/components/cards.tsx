@@ -7,8 +7,8 @@ import { WarningsList } from './WarningsList';
 import { getWeather, getWarnings } from '@/lib/sources/weather';
 import { getRuhrLevel } from '@/lib/sources/pegel';
 import { getAirQuality } from '@/lib/sources/air';
-import { getSchoolHolidays } from '@/lib/sources/schools';
-import { listUpcomingMeetings, fetchMeetingAgenda } from '@/sessionnet';
+import { getSchoolProvider } from '@/lib/providers/schools';
+import { getCouncilProvider } from '@/lib/providers/council';
 import { getT } from '@/lib/i18n-server';
 import { city } from '@/config/city';
 
@@ -172,7 +172,7 @@ export async function PegelCard() {
 
 export async function SchulferienCard() {
   const { t } = await getT();
-  const holidays = await getSchoolHolidays();
+  const holidays = await getSchoolProvider().getHolidays();
   const next = holidays[0];
   if (!next) {
     return (
@@ -206,9 +206,10 @@ export async function SchulferienCard() {
 
 export async function NextMeetingCard() {
   const { t } = await getT();
+  const council = getCouncilProvider();
   let next;
   try {
-    next = (await listUpcomingMeetings({ months: 4 }))[0];
+    next = (await council.listUpcomingMeetings({ months: 4 }))[0];
   } catch {
     next = undefined;
   }
@@ -219,7 +220,7 @@ export async function NextMeetingCard() {
       </Card>
     );
   }
-  const agenda = await fetchMeetingAgenda(next).catch(() => null);
+  const agenda = await council.fetchMeetingAgenda(next).catch(() => null);
   const items = (agenda?.items ?? []).filter((i) => i.subject).slice(0, 4);
   return (
     <Card title={t('Nächste Ratssitzung')} sub={`${next.committee} · ${dmy(next.date)}`} href={`/meetings/${next.ksinr}`} cta={t('Ganze Tagesordnung →')}>
