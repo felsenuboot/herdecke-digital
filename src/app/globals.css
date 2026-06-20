@@ -56,9 +56,9 @@ a { color: var(--accent); }
 .site-header .container {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 14px 18px;
   min-height: var(--header-h);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 /* Brand: Herdecke flag emblem + wordmark */
@@ -80,16 +80,18 @@ a { color: var(--accent); }
 .brand-dot { color: var(--accent); }
 
 /* Tab bar: KERN buttons (the <Link>s carry kern-btn classes) */
+/* Nav takes the space between brand and the utility cluster and wraps its own
+   items when a language has long labels — the utilities stay pinned right
+   instead of collapsing into a broken second row. */
 .site-nav {
-  margin-left: auto;
+  flex: 1 1 auto;
+  min-width: 0;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 2px;
-  overflow-x: auto;
-  max-width: 100%;
-  scrollbar-width: none;
+  justify-content: flex-end;
+  gap: 4px;
 }
-.site-nav::-webkit-scrollbar { display: none; }
 .site-nav .kern-btn { white-space: nowrap; flex: 0 0 auto; text-decoration: none; }
 
 /* Hamburger toggle — shown only on mobile (≤768px). On wider screens the menu
@@ -244,32 +246,44 @@ html[data-kern-theme="dark"] .theme-switch__knob { transform: translateX(20px); 
 }
 .dashboard-head .rule { flex: 1; height: 1px; background: var(--line); }
 
-.overview { display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 14px; }
+.overview { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 14px; }
 .linklike { background: none; border: 0; color: var(--accent); cursor: pointer; font-size: 13px; padding: 0; }
+.dashboard-hint { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--muted); margin: 0 0 14px; }
+.dashboard-hint .tile-grip__icon { flex: 0 0 auto; }
 .overview-item { position: relative; display: flex; }
 .overview-item > .data-card { width: 100%; }
-.overview-item.dragging { opacity: 0.5; }
+.overview-item.is-dragging { z-index: 20; }
+.overview-item.is-dragging .data-card {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18), 0 0 0 2px var(--accent);
+  cursor: grabbing;
+}
+
+/* Drag handle — clearly visible, top-right, so it never collides with the
+   foot CTA. The only drag activator, so links inside the card stay clickable. */
 .tile-grip {
   position: absolute;
-  right: 6px;
-  bottom: 6px;
+  top: 8px;
+  right: 8px;
   width: 30px;
   height: 30px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 0;
-  border-radius: 7px;
-  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
   color: var(--muted);
   cursor: grab;
   touch-action: none;
-  font-size: 15px;
-  opacity: 0.4;
+  opacity: 0.6;
+  z-index: 2;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 .tile-grip:hover,
-.tile-grip:focus-visible { opacity: 1; background: var(--chip); }
+.tile-grip:focus-visible { opacity: 1; color: var(--accent); border-color: color-mix(in oklch, var(--accent) 50%, var(--line)); }
+.tile-grip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .tile-grip:active { cursor: grabbing; }
+.tile-grip__icon { fill: currentColor; }
 
 .muell-cta { display: grid; gap: 10px; justify-items: start; }
 .muell-next-when { font-weight: 700; margin-bottom: 8px; }
@@ -285,9 +299,11 @@ html[data-kern-theme="dark"] .theme-switch__knob { transform: translateX(20px); 
   flex-direction: column;
   min-height: 150px;
 }
-.data-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.data-card-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 8px; margin-bottom: 12px; }
 .data-card-head h3 { font-size: 14px; margin: 0; font-weight: 700; }
-.data-card-sub { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.data-card-sub { font-size: 11px; color: var(--muted); text-align: right; overflow-wrap: break-word; }
+/* Reserve top-right space for the drag handle on dashboard tiles. */
+.overview-item .data-card-head { padding-right: 26px; }
 /* Named weather-warning chips inside the Wetter tile body. */
 .wx-warns { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 12px; }
 .data-card-body { flex: 1; }
@@ -474,8 +490,6 @@ html[data-kern-theme="dark"] .theme-switch__knob { transform: translateX(20px); 
   .hero h1 { font-size: 25px; }
   .hero p.lead { font-size: 16px; }
   .locale-select { width: 132px; }
-  /* Keep a long street name from stretching the card head off-screen. */
-  .data-card-sub { max-width: 50%; overflow: hidden; text-overflow: ellipsis; }
   .site-footer .container { gap: 10px 16px; }
   .site-footer .footer-spacer { margin-left: 0; }
 }
