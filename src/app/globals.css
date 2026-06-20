@@ -92,6 +92,27 @@ a { color: var(--accent); }
 .site-nav::-webkit-scrollbar { display: none; }
 .site-nav .kern-btn { white-space: nowrap; flex: 0 0 auto; text-decoration: none; }
 
+/* Hamburger toggle — shown only on mobile (≤768px). On wider screens the menu
+   flows inline in the header (display: contents) and the toggle is hidden. */
+.nav-burger { display: none; }
+.site-menu { display: contents; }
+.nav-burger__box { position: relative; display: inline-block; width: 20px; height: 14px; }
+.nav-burger__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.nav-burger__bar:nth-child(1) { top: 0; }
+.nav-burger__bar:nth-child(2) { top: 6px; }
+.nav-burger__bar:nth-child(3) { top: 12px; }
+.nav-burger[aria-expanded="true"] .nav-burger__bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-burger[aria-expanded="true"] .nav-burger__bar:nth-child(2) { opacity: 0; }
+.nav-burger[aria-expanded="true"] .nav-burger__bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
 /* Utility cluster: language select + theme switch */
 .nav-utils {
   display: flex;
@@ -423,8 +444,26 @@ html[data-kern-theme="dark"] .theme-switch__knob { transform: translateX(20px); 
 
   /* Brand + utility cluster share the top row; the nav wraps to its own row. */
   .site-header .container { gap: 8px 12px; padding-top: 8px; padding-bottom: 8px; }
-  .nav-utils { margin-left: auto; border-left: 0; padding-left: 0; }
-  .site-nav { order: 3; width: 100%; margin-left: 0; }
+
+  /* Collapse the nav into an accessible hamburger dropdown. */
+  .nav-burger { display: inline-flex; align-items: center; justify-content: center; min-width: 48px; margin-left: auto; }
+  .site-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 16px 16px;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+  }
+  .site-menu.is-open { display: flex; }
+  .site-menu .site-nav { flex-direction: column; align-items: stretch; width: 100%; gap: 4px; margin: 0; overflow: visible; }
+  .site-menu .site-nav .kern-btn { width: 100%; justify-content: flex-start; }
+  .site-menu .nav-utils { margin: 8px 0 0; padding: 12px 0 0; border-left: 0; border-top: 1px solid var(--line); justify-content: space-between; }
 
   /* Stack the address fields so the house-number input isn't cramped. */
   .muell-fields { flex-direction: column; align-items: stretch; gap: 12px; }
@@ -443,6 +482,7 @@ html[data-kern-theme="dark"] .theme-switch__knob { transform: translateX(20px); 
 
 @media (prefers-reduced-motion: reduce) {
   .theme-switch__track,
-  .theme-switch__knob { transition: none; }
+  .theme-switch__knob,
+  .nav-burger__bar { transition: none; }
   .skeleton { animation: none; }
 }
