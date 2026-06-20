@@ -15,6 +15,8 @@
 import { city, sourceUserAgent } from '../../config/city';
 
 const BASE = 'https://ahe.atino.net';
+// The AHE adapter resolves dates for a single PLZ (Herdecke is entirely 58313);
+// a city spanning multiple postal codes would need this threaded per address.
 const PLZ = city.postalCodes[0];
 const UA = sourceUserAgent;
 

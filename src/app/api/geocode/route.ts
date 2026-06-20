@@ -35,7 +35,7 @@ export async function GET(req: Request) {
     const ort = a.city ?? a.town ?? a.village ?? a.municipality ?? '';
     const plz = a.postcode ?? '';
 
-    if (!new RegExp(city.name, 'i').test(ort) && !city.postalCodes.includes(plz)) {
+    if (!ort.toLowerCase().includes(city.name.toLowerCase()) && !city.postalCodes.includes(plz)) {
       return NextResponse.json({ error: `Dein Standort liegt außerhalb von ${city.name}.` }, { status: 200 });
     }
     if (!strasse) {

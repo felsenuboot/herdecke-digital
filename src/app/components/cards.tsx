@@ -10,6 +10,7 @@ import { getAirQuality } from '@/lib/sources/air';
 import { getSchoolHolidays } from '@/lib/sources/schools';
 import { listUpcomingMeetings, fetchMeetingAgenda } from '@/sessionnet';
 import { getT } from '@/lib/i18n-server';
+import { city } from '@/config/city';
 
 function hm(iso: string): string {
   return new Date(iso).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' });
@@ -147,7 +148,12 @@ export async function PegelCard() {
   const p = await getRuhrLevel();
   const arrow = p?.trend === 'rising' ? '↑' : p?.trend === 'falling' ? '↓' : p?.trend === 'steady' ? '→' : '';
   return (
-    <Card title={t('Ruhr-Pegel')} sub={p ? `Hattingen · ${hm(p.when)}` : undefined} href="https://www.pegelonline.wsv.de/gast/stammdaten?pegelnr=2790010" cta={t('Mehr beim WSV →')}>
+    <Card
+      title={t('Ruhr-Pegel')}
+      sub={p ? `${p.station} · ${hm(p.when)}` : undefined}
+      href={`https://www.pegelonline.wsv.de/gast/stammdaten?pegelnr=${city.sources.pegel.gaugeNumber}`}
+      cta={t('Mehr beim WSV →')}
+    >
       {p ? (
         <>
           <div className="metric">
