@@ -56,9 +56,9 @@ a { color: var(--accent); }
 .site-header .container {
   display: flex;
   align-items: center;
-  gap: 14px 18px;
+  flex-wrap: wrap;
+  gap: 8px 18px;
   min-height: var(--header-h);
-  flex-wrap: nowrap;
 }
 
 /* Brand: Herdecke flag emblem + wordmark */
@@ -80,16 +80,10 @@ a { color: var(--accent); }
 .brand-dot { color: var(--accent); }
 
 /* Tab bar: KERN buttons (the <Link>s carry kern-btn classes) */
-/* Nav takes the space between brand and the utility cluster and wraps its own
-   items when a language has long labels — the utilities stay pinned right
-   instead of collapsing into a broken second row. */
 .site-nav {
-  flex: 1 1 auto;
-  min-width: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
   gap: 4px;
 }
 .site-nav .kern-btn { white-space: nowrap; flex: 0 0 auto; text-decoration: none; }
@@ -120,9 +114,6 @@ a { color: var(--accent); }
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 0 0 auto;
-  padding-left: 14px;
-  border-left: 1px solid var(--line);
 }
 /* Language switcher renders the genuine KERN select primitive; we only constrain
    its width so it sits neatly among the header controls (KERN owns the rest). */
@@ -449,6 +440,15 @@ html[data-kern-theme="dark"] .theme-switch__knob { transform: translateX(20px); 
 .prose h2 { font-size: 16px; }
 .prose code { background: var(--chip); padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
 .note { background: var(--kern-color-feedback-info-background); border: 1px solid var(--kern-color-feedback-info); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
+
+/* Desktop header: brand + utilities share the top row, the navigation becomes
+   its own full-width bar below — so it never collides with the utilities and
+   any language (Ukrainian, …) lays out on a single line. */
+@media (min-width: 769px) {
+  .site-header .brand { order: 1; }
+  .nav-utils { order: 2; margin-left: auto; flex: 0 0 auto; }
+  .site-nav { order: 3; flex: 1 1 100%; justify-content: flex-start; padding-top: 2px; }
+}
 
 /* ── Responsive — KERN breakpoints: 768px tablet, 576px mobile ─────────── */
 @media (max-width: 768px) {
