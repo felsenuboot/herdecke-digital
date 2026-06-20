@@ -134,3 +134,6 @@ export const city = herdecke;
 
 /** User-Agent for outbound open-data requests, with a contact URL. */
 export const sourceUserAgent = `${city.userAgent} (open civic-tech; +${city.repoUrl})`;
+
+/** Plain wordmark text, e.g. "Digital.Herdecke" (the accented dot is markup). */
+export const wordmarkText = `${city.wordmark.prefix}.${city.wordmark.suffix}`;

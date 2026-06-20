@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useT } from './i18n';
 import { SelectInput, Button, Badge } from './kern';
+import { city } from '@/config/city';
 
 interface Stop {
   id: string;
@@ -32,7 +33,10 @@ export function AbfahrtenBoard({ stops }: { stops: Stop[] }) {
   // Prefer the main station (Herdecke Bf) as the default; fall back to the first
   // stop only if it isn't in the list.
   const [stopId, setStopId] = useState(
-    () => stops.find((s) => s.id === 'de:05954:2269')?.id ?? stops[0]?.id ?? 'de:05954:2269',
+    () =>
+      stops.find((s) => s.id === city.sources.transit.defaultStop.id)?.id ??
+      stops[0]?.id ??
+      city.sources.transit.defaultStop.id,
   );
   const [board, setBoard] = useState<Board | null>(null);
   const [loading, setLoading] = useState(true);

@@ -16,6 +16,7 @@ import { config } from '@/lib/config';
 import { getT } from '@/lib/i18n-server';
 import { FlagStack } from './components/FlagStack';
 import { Icon } from './components/kern';
+import { city } from '@/config/city';
 
 // Render per request so the cards reflect current data; each source fetch is
 // still cached briefly (see the source clients) to stay polite to the upstreams.
@@ -27,7 +28,7 @@ export default async function Home() {
     <>
       <section className="hero">
         <FlagStack />
-        <h1>Herdecke</h1>
+        <h1>{city.name}</h1>
         <p className="lead">
           {t('Wetter, Verkehr, Ruhr-Pegel, Müllabfuhr und der Stadtrat — das Wichtigste aus Herdecke auf einen Blick.')}
         </p>

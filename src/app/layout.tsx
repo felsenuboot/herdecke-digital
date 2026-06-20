@@ -5,7 +5,9 @@ import './globals.css';
 import { ShareButton } from './components/ShareButton';
 import { I18nProvider } from './components/i18n';
 import { SiteNav } from './components/SiteNav';
+import { StripeFlag } from './components/FlagStack';
 import { getT } from '@/lib/i18n-server';
+import { city, wordmarkText } from '@/config/city';
 
 const THEME_SCRIPT = `(function () {
   function set(t) {
@@ -29,9 +31,8 @@ const THEME_SCRIPT = `(function () {
 })();`;
 
 export const metadata: Metadata = {
-  title: 'Digital.Herdecke — Wetter, Verkehr, Ruhr-Pegel & Stadtrat',
-  description:
-    'Das Wichtigste aus Herdecke auf einen Blick: aktuelles Wetter und Unwetterwarnungen, nächste Abfahrten, Ruhr-Pegel, Müllabfuhr — plus Stichwort-Alarme für den Stadtrat.',
+  title: `${wordmarkText} — Wetter, Verkehr, Ruhr-Pegel & Stadtrat`,
+  description: `Das Wichtigste aus ${city.name} auf einen Blick: aktuelles Wetter und Unwetterwarnungen, nächste Abfahrten, Ruhr-Pegel, Müllabfuhr — plus Stichwort-Alarme für den Stadtrat.`,
 };
 
 export const viewport: Viewport = {
@@ -49,12 +50,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <header className="site-header">
             <div className="container">
               <Link href="/" className="brand" aria-label={t('Herdecke — Startseite')}>
-                <svg className="brand-flag" viewBox="0 0 36 24" role="img" aria-hidden="true">
-                  <rect width="36" height="12" fill="#DA121A" />
-                  <rect width="36" height="12" y="12" fill="#FFFFFF" />
-                </svg>
+                <StripeFlag className="brand-flag" stripes={city.flag.stripes} />
                 <span>
-                  Digital<span className="brand-dot">.</span>Herdecke
+                  {city.wordmark.prefix}
+                  <span className="brand-dot">.</span>
+                  {city.wordmark.suffix}
                 </span>
               </Link>
               <SiteNav />
@@ -63,11 +63,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <main className="container">{children}</main>
           <footer className="site-footer">
             <div className="container">
-              <span className="footer-brand">Digital.Herdecke</span>
+              <span className="footer-brand">{wordmarkText}</span>
               <span>{t('Ein unabhängiges Bürger-Projekt. Keine offizielle Seite der Stadt Herdecke.')}</span>
               <Link href="/datenschutz">{t('Datenschutz')}</Link>
               <Link href="/impressum">{t('Impressum')}</Link>
-              <a href="https://github.com/felsenuboot/herdecke-digital" target="_blank" rel="noreferrer">
+              <a href={city.repoUrl} target="_blank" rel="noreferrer">
                 GitHub
               </a>
               <a

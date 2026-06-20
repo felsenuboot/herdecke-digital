@@ -1,9 +1,10 @@
 /**
- * Schools in Herdecke + NRW school holidays.
+ * School directory + school holidays for the configured city.
  *
  *  - Directory: NRW Schulgrunddaten CSV (Schulministerium NRW open data),
- *    filtered to Herdecke (AGS 05954020). UTF-8, ";"-separated, quoted fields.
- *  - Holidays: OpenHolidays API (keyless) for Nordrhein-Westfalen (DE-NW).
+ *    filtered to the city's AGS (from the city config). UTF-8, ";"-separated.
+ *    NB: this is the NRW adapter — another federal state needs its own source.
+ *  - Holidays: OpenHolidays API (keyless), scoped to the city's federal state.
  */
 
 import { city, sourceUserAgent } from '../../config/city';
