@@ -405,7 +405,6 @@ html[data-kern-theme="dark"] .theme-switch__knob { transform: translateX(20px); 
 /* Row variant for the legal pages: a horizontal band above the heading, so the
    title and body text all start at the left margin (no float wrap / indent). */
 .flag-stack--row { float: none; flex-direction: row; gap: 6px; margin: 0 0 20px; }
-@media (max-width: 560px) { .flag-stack { display: none; } }
 
 /* ── Prose (legal pages) ──────────────────────────────────────────────── */
 .prose { max-width: 72ch; display: flow-root; }
@@ -414,12 +413,32 @@ html[data-kern-theme="dark"] .theme-switch__knob { transform: translateX(20px); 
 .prose code { background: var(--chip); padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
 .note { background: var(--kern-color-feedback-info-background); border: 1px solid var(--kern-color-feedback-info); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
 
-/* ── Responsive ───────────────────────────────────────────────────────── */
-@media (max-width: 680px) {
-  .site-header .container { gap: 0 14px; padding-top: 8px; padding-bottom: 8px; }
-  .nav-utils { margin-left: auto; }
+/* ── Responsive — KERN breakpoints: 768px tablet, 576px mobile ─────────── */
+@media (max-width: 768px) {
+  .container { padding: 0 16px; }
+  .hero { padding: 32px 0 4px; }
+  .hero h1 { font-size: 28px; }
+  .section { padding: 20px 0; }
+  .card { padding: 20px; }
+
+  /* Brand + utility cluster share the top row; the nav wraps to its own row. */
+  .site-header .container { gap: 8px 12px; padding-top: 8px; padding-bottom: 8px; }
+  .nav-utils { margin-left: auto; border-left: 0; padding-left: 0; }
   .site-nav { order: 3; width: 100%; margin-left: 0; }
-  .muell-fields { flex-wrap: wrap; }
+
+  /* Stack the address fields so the house-number input isn't cramped. */
+  .muell-fields { flex-direction: column; align-items: stretch; gap: 12px; }
+}
+
+@media (max-width: 576px) {
+  .flag-stack { display: none; }
+  .hero h1 { font-size: 25px; }
+  .hero p.lead { font-size: 16px; }
+  .locale-select { width: 132px; }
+  /* Keep a long street name from stretching the card head off-screen. */
+  .data-card-sub { max-width: 50%; overflow: hidden; text-overflow: ellipsis; }
+  .site-footer .container { gap: 10px 16px; }
+  .site-footer .footer-spacer { margin-left: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
